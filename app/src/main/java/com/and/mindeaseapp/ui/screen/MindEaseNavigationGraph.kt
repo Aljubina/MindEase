@@ -15,7 +15,16 @@ fun MindEaseNavigationGraph() {
         composable("onboarding") { OnboardingScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("home") { HomeScreen(navController) }
-        composable("test") { MentalHealthTest()}
+        composable("test") { MentalHealthTest(navController)}
+        composable("doctor") { DoctorRecommendationScreen(navController) }
+        composable("appointment") { AppointmentScreen() }
+        composable("chatbot") { ChatbotScreen() }
+        composable("chatbot") { ChatbotScreen(navController) }
+        composable("home") { HomeScreen(navController) }
+        composable("exercise") { SelfCareScreen(navController) }
+
+//        composable("exercise") { SelfCareScreen(navController) }
+
     }
 }
 

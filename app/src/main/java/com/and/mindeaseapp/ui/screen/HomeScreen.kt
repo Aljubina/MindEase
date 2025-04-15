@@ -1,6 +1,7 @@
 package com.and.mindeaseapp.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,26 +39,27 @@ fun HomeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
         MentalHealthTestButton(navController = navController)
         Spacer(modifier = Modifier.height(24.dp))
-        FeatureIconsRow()
+        FeatureIconsRow(navController)
         Spacer(modifier = Modifier.height(32.dp))
-
         Text(
             text = "Start Your Day",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
         Box(
             modifier = Modifier
                 .padding(horizontal = 32.dp)
                 .fillMaxSize()
-                .background(Color(0xFF937373), shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                .background(
+                    Color(0xFF937373),
+                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                )
         )
     }
 }
+
 
 @Composable
 fun ProfileSection() {
@@ -109,23 +109,55 @@ fun MentalHealthTestButton(navController: NavController) {
 }
 
 @Composable
-fun FeatureIconsRow() {
+fun FeatureIconsRow(navController: NavController) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        FeatureIcon("Doctor Recommendation")
-        FeatureIcon("Chatbot Support")
-        FeatureIcon("Self-Care Exercise")
-        FeatureIcon("Appointment")
+        FeatureIcon(
+            "Doctor Recommendation",
+            onClick = {
+                navController.navigate("doctor") {
+                    popUpTo("home") {inclusive = true}
+                }
+            }
+        )
+        FeatureIcon(
+            "Chatbot Support",
+            onClick = {
+                navController.navigate("chatbot") {
+                    popUpTo("home") {inclusive = true}
+                }
+            }
+        )
+        FeatureIcon(
+            "Self-Care Exercise",
+            onClick = {
+                navController.navigate("exercise") {
+                    popUpTo("home") {inclusive = true}
+                }
+            }
+        )
+        FeatureIcon(
+            "Appointment",
+            onClick = {
+                navController.navigate("appointment") {
+                    popUpTo("home") {inclusive = true}
+                }
+            }
+        )
     }
 }
 
 @Composable
-fun FeatureIcon(label: String, modifier: Modifier = Modifier) {
+fun FeatureIcon(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.width(70.dp) // Adjust width to ensure text fits properly
+        modifier = modifier
+            .width(70.dp)
+            .clickable(onClick = onClick) // Makes the whole column clickable
     ) {
         Box(
             modifier = Modifier
@@ -138,7 +170,7 @@ fun FeatureIcon(label: String, modifier: Modifier = Modifier) {
             fontSize = 12.sp,
             color = Color.Black,
             textAlign = TextAlign.Center,
-            maxLines = 2, // Allows text to wrap in case of longer labels
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.fillMaxWidth()
         )
