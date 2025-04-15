@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun MentalHealthTest() {
+fun MentalHealthTest(navController: NavController) {
     val questions = listOf(
         "Have you been feeling sad, empty, or hopeless most days over the last few weeks?",
         "Have you lost interest or pleasure in activities you used to enjoy?",
@@ -98,13 +98,13 @@ fun MentalHealthTest() {
                 }
             }
         } else {
-            SummaryScreen(answers)
+            SummaryScreen(answers, navController)
         }
     }
 }
 
 @Composable
-fun SummaryScreen(answers: List<String>) {
+fun SummaryScreen(answers: List<String>, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -113,18 +113,22 @@ fun SummaryScreen(answers: List<String>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Thanks for completing the check-in!", style = MaterialTheme.typography.headlineSmall)
-//        Spacer(modifier = Modifier.height(16.dp))
-//        Text("Based on your responses, we recommend talking to a mental health professional or exploring our self-help tools.")
-//        Spacer(modifier = Modifier.height(24.dp))
-//        Button(onClick = { /* Navigate to therapist finder or tools */ }) {
-//            Text("Explore Help Options")
-//        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Based on your responses, we recommend talking to a mental health professional or exploring our self-help tools.")
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = { /* Navigate to therapist finder or tools */
+            navController.navigate("doctor") {
+                popUpTo("test") { inclusive = true }
+            }
+        }) {
+            Text("Recommend Doctors")
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MentalHealthTestPreview() {
-//    val navController = rememberNavController()
-    MentalHealthTest()
+    val navController = rememberNavController()
+    MentalHealthTest(navController)
 }
